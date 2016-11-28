@@ -96,7 +96,7 @@ public class Aula {
             return null;
         }else {
             Professor professor = new Professor(objeto.getInt("idProfessor"),objeto.getString("Nome"));
-            Sala sala = new Sala(objeto.getInt("idSala"),objeto.getInt("Numero"));
+            Sala sala = new Sala(objeto.getInt("idSala"),objeto.getString("Numero"));
             Disciplina disciplina = new Disciplina(objeto.getInt("idDisciplina"),objeto.getString("Nome"));
             Aula aula = new Aula(objeto.getInt("idAula"),objeto.getString("Data"),
                     objeto.getString("HoraInicio"),objeto.getString("HoraFim"),

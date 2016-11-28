@@ -9,9 +9,9 @@ import org.json.JSONObject;
 
 public class Sala {
     private int idSala;
-    private int numero;
+    private String numero;
 
-    public Sala(int idSala, int numero) {
+    public Sala(int idSala, String numero) {
         this.idSala = idSala;
         this.numero = numero;
     }
@@ -24,11 +24,11 @@ public class Sala {
         this.idSala = idSala;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -36,7 +36,7 @@ public class Sala {
         if (objeto == null) {
             return null;
         } else {
-            Sala sala = new Sala(objeto.getInt("idSala"), objeto.getInt("Numero"));
+            Sala sala = new Sala(objeto.getInt("idSala"), objeto.getString("Numero"));
             return sala;
         }
     }
