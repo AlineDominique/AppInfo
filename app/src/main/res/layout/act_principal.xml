@@ -57,10 +57,22 @@
                         <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spDataSala"
+                            android:id="@+id/spDiaSala"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp" />
+
+                        <Button
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pesquisar"
+                            android:id="@+id/btPesquisarPorSala"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/buttonColorPrimary"
+                            android:textColor="@color/fontColorPrimary"
+                            android:padding="5dp" />
 
                         <android.support.design.widget.CoordinatorLayout
                             android:id="@+id/clHorarioSala"
@@ -99,10 +111,22 @@
                         <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spDataProfessor"
+                            android:id="@+id/spDiaProfessor"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp" />
+
+                        <Button
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pesquisar"
+                            android:id="@+id/btPesquisarPorProfessor"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/buttonColorPrimary"
+                            android:textColor="@color/fontColorPrimary"
+                            android:padding="5dp" />
 
                         <android.support.design.widget.CoordinatorLayout
                             android:id="@+id/clHorarioProfessor"

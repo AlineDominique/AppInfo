@@ -48,4 +48,8 @@ public class Sala {
         return objeto;
     }
 
+    @Override
+    public String toString() {
+        return numero;
+    }
 }

@@ -8,7 +8,7 @@ import org.json.JSONObject;
  */
 public class Aula {
     private int idAula;
-    private String data;
+    private String dia;
     private String horainicio;
     private String horafim;
     private int semestre;
@@ -16,9 +16,9 @@ public class Aula {
     private Sala sala;
     private Disciplina disciplina;
 
-    public Aula(int idAula, String data, String horainicio, String horafim, int semestre, Professor professor, Sala sala, Disciplina disciplina) {
+    public Aula(int idAula, String dia, String horainicio, String horafim, int semestre, Professor professor, Sala sala, Disciplina disciplina) {
         this.idAula = idAula;
-        this.data = data;
+        this.dia = dia;
         this.horainicio = horainicio;
         this.horafim = horafim;
         this.semestre = semestre;
@@ -35,12 +35,12 @@ public class Aula {
         this.idAula = idAula;
     }
 
-    public String getData() {
-        return data;
+    public String getDia() {
+        return dia;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDia(String dia) {
+        this.dia = dia;
     }
 
     public String getHorainicio() {
@@ -95,12 +95,12 @@ public class Aula {
         if(objeto == null){
             return null;
         }else {
-            Professor professor = new Professor(objeto.getInt("idProfessor"),objeto.getString("Nome"));
-            Sala sala = new Sala(objeto.getInt("idSala"),objeto.getString("Numero"));
-            Disciplina disciplina = new Disciplina(objeto.getInt("idDisciplina"),objeto.getString("Nome"));
-            Aula aula = new Aula(objeto.getInt("idAula"),objeto.getString("Data"),
+            Professor professor = new Professor(objeto.getInt("idProfessor"),objeto.getString("Professor"));
+            Sala sala = new Sala(objeto.getInt("idSala"),objeto.getString("Sala"));
+            Disciplina disciplina = new Disciplina(objeto.getInt("idDisciplina"),objeto.getString("Disciplina"));
+            Aula aula = new Aula(objeto.getInt("idAula"),objeto.getString("Dia"),
                     objeto.getString("HoraInicio"),objeto.getString("HoraFim"),
-                    objeto.getInt("Semetre"),professor,sala,disciplina);
+                    objeto.getInt("Semestre"),professor,sala,disciplina);
             return aula;
         }
     }
@@ -108,7 +108,7 @@ public class Aula {
     public JSONObject aulaToJson() throws JSONException {
         JSONObject objeto = new JSONObject();
         objeto.put("idAula",this.getIdAula());
-        objeto.put("Data",this.getData());
+        objeto.put("Dia",this.getDia());
         objeto.put("HoraInicio",this.getHorainicio());
         objeto.put("HoraFim",this.getHorafim());
         objeto.put("Semestre",this.getSemestre());

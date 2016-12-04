@@ -45,7 +45,7 @@ public class Requisicao {
             //Adiciona os headers da requisição
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("authorization","Basic YXBwaW5mbzpsYW00WnU3NzFO");
+                con.setRequestProperty("authorization","Basic YXBwaW5mbzpsYW00WnU3NzFO");
 
             if(!conteudo.equals("")) {
                 // Adiciona conteudo na requisição

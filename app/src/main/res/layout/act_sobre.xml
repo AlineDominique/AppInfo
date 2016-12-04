@@ -30,7 +30,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/ivLogo"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logofatec"
+                android:src="@drawable/logoinfofatec"
                 android:layout_marginTop="30dp" />
 
             <TextView

@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -58,17 +59,14 @@ public class ActPrincipal extends AppCompatActivity {
     ArrayAdapter<Aula> adpAulaSala;
     ArrayAdapter<Aula> adpAulaProfessor;
     ListView lvHorarioProfessor;
-    TextView tvDisciplina;
-    TextView tvProfessor;
-    TextView tvHorarioInicio;
     private Spinner spSala;
-    private Spinner spDataSala;
+    private Spinner spDiaSala;
     private Spinner spProfessor;
-    private Spinner spDataProfessor;
+    private Spinner spDiaProfessor;
     private ArrayList<Sala> salas = new ArrayList<>();
     private ArrayList<Professor> professores = new ArrayList<>();
-    private ArrayList<String> dataSala = new ArrayList<>();
-    private ArrayList<String> dataProfessor = new ArrayList<>();
+    private ArrayList<String> diaSala = new ArrayList<>();
+    private ArrayList<String> diaProfessor = new ArrayList<>();
 
     Menu menu;
 
@@ -137,6 +135,25 @@ public class ActPrincipal extends AppCompatActivity {
         configuraTabs();
         //Carrega spinners da tela com os valores
         CarregaSpinners();
+
+        //Adiciona evento de click no botão de pesquisar por sala
+        Button btPesquisarPorSala = (Button) findViewById(R.id.btPesquisarPorSala);
+        btPesquisarPorSala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PesquisaAulaPorSala();
+            }
+        });
+
+        //Adiciona evento de click no botão de pesquisar por professor
+        Button btPesquisarPorProfessor = (Button) findViewById(R.id.btPesquisarPorProfessor);
+        btPesquisarPorProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PesquisaAulaPorProfessor();
+            }
+        });
+
     }
 
     @Override
@@ -177,15 +194,19 @@ public class ActPrincipal extends AppCompatActivity {
 
                 final int index = position;
 
+                ImageView ivAula = (ImageView) convertView.findViewById(R.id.ivAula);
                 TextView tvDisciplina = (TextView) convertView.findViewById(R.id.tvDisciplina);
                 TextView tvProfessor = (TextView) convertView.findViewById(R.id.tvProfessor);
+                TextView tvDia = (TextView) convertView.findViewById(R.id.tvDia);
                 TextView tvHorarioInicio = (TextView) convertView.findViewById(R.id.tvHorarioInicio);
 
                 Aula aula = (Aula) getItem(position);
 
-                tvDisciplina.setText(aula.getDisciplina().getNome());
-                tvProfessor.setText(aula.getProfessor().getNome());
-                tvHorarioInicio.setText(aula.getHorainicio());
+                ivAula.setImageResource(R.drawable.ic_watch_black);
+                tvDisciplina.setText(aula.getDisciplina().getNome().toString());
+                tvProfessor.setText(aula.getProfessor().getNome().toString());
+                tvDia.setText(aula.getDia().toString());
+                tvHorarioInicio.setText(aula.getHorainicio().toString());
 
                 return convertView;
             }
@@ -221,15 +242,19 @@ public class ActPrincipal extends AppCompatActivity {
 
                 final int index = position;
 
+                ImageView ivAula = (ImageView) convertView.findViewById(R.id.ivAula);
                 TextView tvDisciplina = (TextView) convertView.findViewById(R.id.tvDisciplina);
                 TextView tvProfessor = (TextView) convertView.findViewById(R.id.tvProfessor);
+                TextView tvDia = (TextView) convertView.findViewById(R.id.tvDia);
                 TextView tvHorarioInicio = (TextView) convertView.findViewById(R.id.tvHorarioInicio);
 
                 Aula aula = (Aula) getItem(position);
 
-                tvDisciplina.setText(aula.getDisciplina().getNome());
-                tvProfessor.setText(aula.getProfessor().getNome());
-                tvHorarioInicio.setText(aula.getHorainicio());
+                ivAula.setImageResource(R.drawable.ic_watch_black);
+                tvDisciplina.setText(aula.getDisciplina().getNome().toString());
+                tvProfessor.setText(aula.getProfessor().getNome().toString());
+                tvDia.setText(aula.getDia().toString());
+                tvHorarioInicio.setText(aula.getHorainicio().toString());
 
                 return convertView;
             }
@@ -265,7 +290,7 @@ public class ActPrincipal extends AppCompatActivity {
 
         TabHost.TabSpec descritor = abas.newTabSpec("Sala");
         descritor.setContent(R.id.llHorarioSala);
-        descritor.setIndicator("", ResourcesCompat.getDrawable(getResources(), R.drawable.ic_home, getTheme()));
+        descritor.setIndicator("", ResourcesCompat.getDrawable(getResources(), R.drawable.ic_place, getTheme()));
         abas.addTab(descritor);
 
         descritor = abas.newTabSpec("Professor");
@@ -366,7 +391,7 @@ public class ActPrincipal extends AppCompatActivity {
                         Mensagem msg = Mensagem.jsonToMensagem(json);
                         Toast.makeText(ActPrincipal.this, msg.getMensagem(), Toast.LENGTH_SHORT).show();
                     } else {
-                        if (metodo == "ListaAulaPorSala") {
+                        if (metodo == "ListaAulasPorSala") {
                             //Monta lista de Aulas Por Sala
                             for (int i = 0; i < resultado.length(); i++) {
                                 listaAulaPorSala.add(Aula.jsonToAula(resultado.getJSONObject(i)));
@@ -374,7 +399,7 @@ public class ActPrincipal extends AppCompatActivity {
                             adpAulaSala.clear();
                             adpAulaSala.addAll(listaAulaPorSala);
                         } else {
-                            if (metodo == "ListaAulaPorProfessor") {
+                            if (metodo == "ListaAulasPorProfessor") {
                                 //Monta lista de Aulas Por Professor
                                 for (int i = 0; i < resultado.length(); i++) {
                                     listaAulaPorProfessor.add(Aula.jsonToAula(resultado.getJSONObject(i)));
@@ -392,6 +417,27 @@ public class ActPrincipal extends AppCompatActivity {
                                         //Recupera professores
                                         for(int i=0;i<resultado.length();i++){
                                             professores.add(Professor.jsonToProfessor(resultado.getJSONObject(i)));
+                                        }
+                                    }else{
+                                        if(metodo == "PesquisaAulaPorSala"){
+                                            listaAulaPorSala.clear();
+                                            adpAulaSala.clear();
+                                            //Recupera pesquisa por Sala
+                                            for (int i = 0; i < resultado.length(); i++) {
+                                                listaAulaPorSala.add(Aula.jsonToAula(resultado.getJSONObject(i)));
+                                            }
+                                            adpAulaSala.addAll(listaAulaPorSala);
+                                        }else{
+                                            if(metodo == "PesquisaAulaPorProfessor"){
+                                                int c = resultado.length();
+                                                listaAulaPorProfessor.clear();
+                                                adpAulaProfessor.clear();
+                                                    //Recupera pesquisa por Professor
+                                                    for (int i = 0; i < resultado.length(); i++) {
+                                                        listaAulaPorProfessor.add(Aula.jsonToAula(resultado.getJSONObject(i)));
+                                                    }
+                                                adpAulaProfessor.addAll(listaAulaPorProfessor);
+                                            }
                                         }
                                     }
                                 }
@@ -457,17 +503,34 @@ public class ActPrincipal extends AppCompatActivity {
                 }
                 return view;
             }
+
         };
         spSala.setAdapter(adSala);
 
         //Carrega lista de Salas
+        //pd = ProgressDialog.show(ActPrincipal.this, "", "Por favor, aguarde...", false);
+        //processos++;
         scHorarioSala.setRefreshing(true);
         new RequisicaoAsyncTask().execute("ListaSalas", "0", "");
 
-        //Adiciona evento de item selecionado no spinner de especie
+        //Adiciona evento de item selecionado no spinner de Salas
         spSala.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                /*scHorarioSala.setRefreshing(true);
+
+                Sala item = (Sala) parent.getItemAtPosition(position);
+
+                //Carrega lista de Horario Por Sala
+                listaAulaPorSala.clear();
+                try {
+                    JSONObject json = new JSONObject();
+                    new RequisicaoAsyncTask().execute("ListaAulasPorSala", String.valueOf(item.getIdSala()) , json.toString());
+                } catch (Exception ex) {
+                    Log.e("Erro", ex.getMessage());
+                    Toast.makeText(ActPrincipal.this, "Não foi possível completar a operação!", Toast.LENGTH_SHORT).show();
+                }*/
             }
 
             @Override
@@ -526,10 +589,39 @@ public class ActPrincipal extends AppCompatActivity {
         };
         spProfessor.setAdapter(adProfessor);
 
-        //Recupera data.
-        String[] dataSala = new String[]{"Selecione o dia","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"};
-        spDataSala = (Spinner) findViewById(R.id.spDataSala);
-        ArrayAdapter adDataSala = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,dataSala){
+        //Carrega lista de Professores
+        scHorarioProfessor.setRefreshing(true);
+        new RequisicaoAsyncTask().execute("ListaProfessores", "0", "");
+
+        //Adiciona evento de item selecionado no spinner de Salas
+        spProfessor .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                /*scHorarioProfessor.setRefreshing(true);
+
+                Professor item = (Professor) parent.getItemAtPosition(position);
+                //Carrega lista de Horario Por Professor
+                listaAulaPorProfessor.clear();
+                try {
+                    JSONObject json = new JSONObject();
+                    new RequisicaoAsyncTask().execute("ListaAulasPorProfessor", String.valueOf(item.getIdProfessor()), json.toString());
+                } catch (Exception ex) {
+                    Log.e("Erro", ex.getMessage());
+                    Toast.makeText(ActPrincipal.this, "Não foi possível completar a operação!", Toast.LENGTH_SHORT).show();
+                }*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Recupera dia.
+        String[] diaSala = new String[]{"Selecione o dia","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"};
+        spDiaSala = (Spinner) findViewById(R.id.spDiaSala);
+        ArrayAdapter adDiaSala = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,diaSala){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -573,12 +665,12 @@ public class ActPrincipal extends AppCompatActivity {
                 return view;
             }
         };
-        spDataSala.setAdapter(adDataSala);
+        spDiaSala.setAdapter(adDiaSala);
 
         //Recupera data Professor.
-        String[] dataProfessor = new String[]{"Selecione a data","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"};
-        spDataProfessor = (Spinner) findViewById(R.id.spDataProfessor);
-        ArrayAdapter addataProfessor = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,dataProfessor){
+        String[] diaProfessor = new String[]{"Selecione a data","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"};
+        spDiaProfessor = (Spinner) findViewById(R.id.spDiaProfessor);
+        ArrayAdapter adDiaProfessor = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,diaProfessor){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
@@ -622,6 +714,73 @@ public class ActPrincipal extends AppCompatActivity {
                 return view;
             }
         };
-        spDataProfessor.setAdapter(addataProfessor);
+        spDiaProfessor.setAdapter(adDiaProfessor);
     }
+
+    //Pesquisa Aulas com base nas informacoes dos spinners
+    public void PesquisaAulaPorSala(){
+        String erro = "";
+
+        //Valida dados fornecidos
+        if(spSala.getSelectedItemPosition() == 0){
+            erro = "Preencha o número da Sala!";
+        }else{
+            if(spDiaSala.getSelectedItemPosition() == 0){
+                erro = "Preencha o dia da Aula!";
+            }
+        }
+
+        try {
+            //Verifica se foi encontrado algum problema
+            if (erro.equals("")) {
+                listaAulaPorSala.clear();
+                JSONObject json = new JSONObject();
+                json.put("Numero", spSala.getSelectedItem().toString());
+                json.put("Dia", spDiaSala.getSelectedItem().toString());
+
+                scHorarioSala.setRefreshing(true);
+                new RequisicaoAsyncTask().execute("PesquisaAulaPorSala", "0", json.toString());
+
+            } else {
+                Toast.makeText(ActPrincipal.this, erro, Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception ex){
+            Log.e("Erro", ex.getMessage());
+            Toast.makeText(ActPrincipal.this, "Não foi possível completar a operação!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Pesquisa Aulas com base nas informacoes dos spinners
+    public void PesquisaAulaPorProfessor(){
+        String erro = "";
+
+        //Valida dados fornecidos
+        if(spProfessor.getSelectedItemPosition() == 0){
+            erro = "Preencha o nome do Professor!";
+        }else{
+            if(spDiaProfessor.getSelectedItemPosition() == 0){
+            erro = "Preencha o dia da Aula!";
+        }
+        }
+
+        try {
+            //Verifica se foi encontrado algum problema
+            if (erro.equals("")) {
+                listaAulaPorProfessor.clear();
+                JSONObject json = new JSONObject();
+                json.put("Nome", spProfessor.getSelectedItem().toString());
+                json.put("Dia", spDiaProfessor.getSelectedItem().toString());
+
+                scHorarioProfessor.setRefreshing(true);
+                new RequisicaoAsyncTask().execute("PesquisaAulaPorProfessor", "0", json.toString());
+
+            } else {
+                Toast.makeText(ActPrincipal.this, erro, Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception ex){
+            Log.e("Erro", ex.getMessage());
+            Toast.makeText(ActPrincipal.this, "Não foi possível completar a operação!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
