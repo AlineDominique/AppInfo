@@ -61,5 +61,13 @@
             android:text="HorarioInicio"
             android:id="@+id/tvHorarioInicio"
             android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Sala"
+            android:id="@+id/tvSala"
+            android:layout_marginLeft="5dp" />
     </LinearLayout>
 </LinearLayout>

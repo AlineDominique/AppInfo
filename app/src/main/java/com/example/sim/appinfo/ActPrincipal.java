@@ -199,6 +199,8 @@ public class ActPrincipal extends AppCompatActivity {
                 TextView tvProfessor = (TextView) convertView.findViewById(R.id.tvProfessor);
                 TextView tvDia = (TextView) convertView.findViewById(R.id.tvDia);
                 TextView tvHorarioInicio = (TextView) convertView.findViewById(R.id.tvHorarioInicio);
+                TextView tvSala = (TextView) convertView.findViewById(R.id.tvSala);
+
 
                 Aula aula = (Aula) getItem(position);
 
@@ -207,6 +209,8 @@ public class ActPrincipal extends AppCompatActivity {
                 tvProfessor.setText(aula.getProfessor().getNome().toString());
                 tvDia.setText(aula.getDia().toString());
                 tvHorarioInicio.setText(aula.getHorainicio().toString());
+                tvSala.setText(aula.getSala().getNumero().toString());
+
 
                 return convertView;
             }
@@ -247,6 +251,8 @@ public class ActPrincipal extends AppCompatActivity {
                 TextView tvProfessor = (TextView) convertView.findViewById(R.id.tvProfessor);
                 TextView tvDia = (TextView) convertView.findViewById(R.id.tvDia);
                 TextView tvHorarioInicio = (TextView) convertView.findViewById(R.id.tvHorarioInicio);
+                TextView tvSala = (TextView) convertView.findViewById(R.id.tvSala);
+
 
                 Aula aula = (Aula) getItem(position);
 
@@ -255,6 +261,7 @@ public class ActPrincipal extends AppCompatActivity {
                 tvProfessor.setText(aula.getProfessor().getNome().toString());
                 tvDia.setText(aula.getDia().toString());
                 tvHorarioInicio.setText(aula.getHorainicio().toString());
+                tvSala.setText(aula.getSala().getNumero().toString());
 
                 return convertView;
             }
